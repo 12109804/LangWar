@@ -1,0 +1,10 @@
+# Node
+node_modules/
+npm-debug.log
+
+# ビルド
+dist/
+build/
+
+# 環境変数
+.env
