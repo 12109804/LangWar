@@ -1,0 +1,146 @@
+body {
+    margin: 0;
+    padding: 0;
+    color: aliceblue;
+    background-color: rgb(37, 110, 128);
+    font-size: 16px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* スタート画面 */
+.start-screen {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 85vb;
+    flex-direction: column;
+}
+
+/* タイトル */
+.title-logo { 
+    font-size: 90px;
+    font-weight: 900;
+    letter-spacing: 2px;
+}
+
+.logo {
+    display: inline-block;
+    animation: bounce 0.7s infinite alternate ease-out;
+}
+
+.logo:nth-child(1) {
+    color: rgb(255, 0, 0);
+    animation-delay: 0s;
+}
+.logo:nth-child(2) {
+    color: rgb(255, 162, 0);
+    animation-delay: 0.1s;
+}
+.logo:nth-child(3) {
+    color: rgb(255, 242, 0);
+    animation-delay: 0.2s;
+}
+.logo:nth-child(4) {
+    color: rgb(38, 255, 0);
+    animation-delay: 0.3s;
+}
+.logo:nth-child(5) {
+    color: rgb(4, 0, 255);
+    animation-delay: 0.4s;
+}
+.logo:nth-child(6) {
+    color: rgb(217, 0, 255);
+    animation-delay: 0.5s;
+}
+.logo:nth-child(7) {
+    color: rgb(249, 249, 249);
+    animation-delay: 0.6s;
+}
+
+/* ロゴのアニメーション */
+@keyframes bounce {
+    0% {
+        transform: translateY(0);
+    }
+    100% {
+        transform: translateY(-30px);
+    }
+}
+
+/* 発光効果 */
+
+
+
+/* ボタン */
+#btn {
+    display: flex;
+    justify-content: center;
+    margin: 15px;
+    width: 400px;
+    font-size: 2rem;
+    padding: 15px 40px;
+    color: #fff;
+    background: transparent;
+    border: 2px solid #0ff;
+    border-radius: 8px;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+
+    /* 発光効果 */
+    box-shadow: 0 0 5px #0ff,
+                0 0 10px rgb(0, 204, 255),
+                0 0 20px rgb(0, 238, 255),
+                0 0 40px #0ff;
+    text-shadow: 0 0 5px #0ff,
+                0 0 10px #0ff,
+                0 0 20px #0ff;
+
+    /* アニメーション */
+    animation: neon-flicker 2s infinite alternate;
+    transition: transform 0.2s ease;
+}
+
+#btn:hover {
+    transform: scale(1.05);
+    background-color: rgb(255, 255, 255);
+}
+
+@keyframes neon-flicker {
+    0%, 100% {
+        box-shadow: 0 0 5px #0ff,
+                    0 0 10px #0ff,
+                    0 0 20px #0ff,
+                    0 0 40px #0ff;
+        text-shadow: 0 0 5px #0ff,
+                    0 0 10px #0ff,
+                    0 0 20px #0ff;
+        opacity: 1;
+    }
+    50% {
+        box-shadow: 0 0 2px #0ff,
+                    0 0 5px #0ff,
+                    0 0 10px #0ff;
+        text-shadow: 0 0 2px #0ff,
+                    0 0 5px #0ff;
+        opacity: 0.85;
+    }
+}
+
+
+/* スタートボタン */
+.start-btn {
+    
+}
+
+/* スタートボタンアニメーション */
+.start-btn:hover  {
+}
+
+
+
+
+
+
+
+
