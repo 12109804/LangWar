@@ -10,7 +10,7 @@
 </head>
 <body>
     <!-- ゲームスタート画面 -->
-    <div class="start-screen">
+    <div class="start-screen" style="display: none;">
         <h1 class="title-logo">
             <span class="logo">L</span>
             <span class="logo">a</span>
@@ -29,9 +29,10 @@
     </div>
     <!-- ゲーム画面 -->
     <div id="game-screen">
-        <h2>GAME START</h2>
+        <div id="board"></div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-jdSIJTK9l6XwXj3RixpVDXtMcA2bFd9O81RlLAwhpr2oXRqvQP88rr16IeFXTgFE" crossorigin="anonymous"></script>
     <script src="js/start_screen.js"></script>
+    <script src="js/puzzle_main.js"></script>
 </body>
 </html>        
