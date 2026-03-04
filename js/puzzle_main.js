@@ -108,3 +108,4 @@ function fixPice() {
 
 // ゲームオーバー判定
 let gameOver = false;
+
