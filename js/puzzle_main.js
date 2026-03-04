@@ -82,13 +82,23 @@ function canMoveDown() {
     return true;
 }
 
-// 重力
-setInterval(() => {
-    // ゲームオーバーになったら
+// 重力  
+
+// 通常速度
+let dropSpeed = 1000;  
+let dropInterval;
+
+function startGravity() {
+    // 速度変更のためにIDを保存
+    dropInterval = setInterval(() => {
+
+     // ゲームオーバーになったら
     if (gameOver) return;
+
     // 下に空きがあるかつ、一番下でない場合yを+1して下に移動させる
     if (canMoveDown()) {
         currentPiece.y++;
+
     // 下に動けない場合
     } else {
         // 落下ブロックを固定化
@@ -98,13 +108,18 @@ setInterval(() => {
     }
 
     // 処理が1秒ごとに実行される
-    render()
-}, 1000);
+    render();
+    },dropSpeed);
+}
+
+// 実行
+startGravity()
 
 // 固定処理
 function fixPice() {
     board[currentPiece.y][currentPiece.x] = 1;
 }
+
 
 // ゲームオーバー判定
 let gameOver = false;
