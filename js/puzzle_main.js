@@ -1,4 +1,5 @@
-// データ構造 12×6マス
+// 1.Board （盤面）
+// データ構造 12×7マス
     // 行（縦）
 const ROWS = 12; 
     // 列（横）
@@ -10,7 +11,52 @@ let board = Array.from({length: ROWS }, () =>
     Array(COLS).fill(0)
 );
 
-// 描画
+
+// 2.落下ブロック
+let currentPiece = {
+    x: 3,
+    y: 0,
+    shape: [[1]]
+};
+
+// 3.新しいブロック
+function spawnPiece() {
+    // ピースの要素数を整数かつランダムに取得
+    const randomIndex = Math.floor(Math.random() * PIECES.length);
+    const PIECE = PIECES[randomIndex];
+    // 新しいピースを生成
+    currentPiece = {
+        x: Math.floor(COLS / 2),
+        y: 0,
+        shape: PIECE.shape
+        };
+// 新しいブロックを置けない場合の処理（すでに固定ブロックがある場合）
+    if (board[currentPiece.y][currentPiece.x] !== 0) {
+        gameOver = true;
+        // ゲームオーバーアラート
+        alert("GAME OVER");
+    };
+}
+
+// 4.落下ブロックの挙動
+function canMoveDown() {
+    // 一番下なら止まる
+    if (currentPiece.y >= ROWS - 1) {
+        return false;
+    }
+    // 落下ブロックの下に固定ブロックがある場合止まる
+    if (board[currentPiece.y + 1][currentPiece.x] !== 0) {
+        return false;
+    }
+    return true;
+}
+
+// 5.固定処理
+function fixPice() {
+    board[currentPiece.y][currentPiece.x] = 1;
+}
+
+// 6.描画 render
 function render() {
     // 画面先のHTMLの要素を取得
     const boardElement = document.getElementById("board");
@@ -46,44 +92,10 @@ function render() {
     }
 }
 
+// ゲームオーバー判定
+let gameOver = false;
 
-// 落下ブロック
-let currentPiece = {
-    x: 3,
-    y: 0,
-    shape: [[1]]
-};
-
-// 新しいブロック
-function spawnPiece() {
-    currentPiece = {
-        x: 3,
-        y: 0,
-        shape: [[1]]
-    };
-// 新しいブロックを置けない場合の処理（すでに固定ブロックがある場合）
-    if (board[currentPiece.y][currentPiece.x] !== 0) {
-        gameOver = true;
-        // ゲームオーバーアラート
-        alert("GAME OVER");
-    }
-}
-
-// 落下ブロックの挙動
-function canMoveDown() {
-    // 一番下なら止まる
-    if (currentPiece.y >= ROWS - 1) {
-        return false;
-    }
-    // 落下ブロックの下に固定ブロックがある場合止まる
-    if (board[currentPiece.y + 1][currentPiece.x] !== 0) {
-        return false;
-    }
-    return true;
-}
-
-// 重力  
-
+// 7. Gravity(落下処理)
 // 通常速度
 let dropSpeed = 1000;  
 let dropInterval;
@@ -112,15 +124,9 @@ function startGravity() {
     },dropSpeed);
 }
 
+
+
 // 実行
 startGravity()
 
-// 固定処理
-function fixPice() {
-    board[currentPiece.y][currentPiece.x] = 1;
-}
-
-
-// ゲームオーバー判定
-let gameOver = false;
 
