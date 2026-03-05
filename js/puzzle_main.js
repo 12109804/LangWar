@@ -1,4 +1,5 @@
-// データ構造 12×6マス
+// 1.Board （盤面）
+// データ構造 12×7マス
     // 行（縦）
 const ROWS = 12; 
     // 列（横）
@@ -10,7 +11,52 @@ let board = Array.from({length: ROWS }, () =>
     Array(COLS).fill(0)
 );
 
-// 描画
+
+// 2.落下ブロック
+let currentPiece = {
+    x: 3,
+    y: 0,
+    shape: [[1]]
+};
+
+// 3.新しいブロック
+function spawnPiece() {
+    // ピースの要素数を整数かつランダムに取得
+    const randomIndex = Math.floor(Math.random() * PIECES.length);
+    const PIECE = PIECES[randomIndex];
+    // 新しいピースを生成
+    currentPiece = {
+        x: Math.floor(COLS / 2),
+        y: 0,
+        shape: PIECE.shape
+        };
+// 新しいブロックを置けない場合の処理（すでに固定ブロックがある場合）
+    if (board[currentPiece.y][currentPiece.x] !== 0) {
+        gameOver = true;
+        // ゲームオーバーアラート
+        alert("GAME OVER");
+    };
+}
+
+// 4.落下ブロックの挙動
+function canMoveDown() {
+    // 一番下なら止まる
+    if (currentPiece.y >= ROWS - 1) {
+        return false;
+    }
+    // 落下ブロックの下に固定ブロックがある場合止まる
+    if (board[currentPiece.y + 1][currentPiece.x] !== 0) {
+        return false;
+    }
+    return true;
+}
+
+// 5.固定処理
+function fixPice() {
+    board[currentPiece.y][currentPiece.x] = 1;
+}
+
+// 6.描画 render
 function render() {
     // 画面先のHTMLの要素を取得
     const boardElement = document.getElementById("board");
@@ -46,49 +92,25 @@ function render() {
     }
 }
 
+// ゲームオーバー判定
+let gameOver = false;
 
-// 落下ブロック
-let currentPiece = {
-    x: 3,
-    y: 0,
-    shape: [[1]]
-};
+// 7. Gravity(落下処理)
+// 通常速度
+let dropSpeed = 1000;  
+let dropInterval;
 
-// 新しいブロック
-function spawnPiece() {
-    currentPiece = {
-        x: 3,
-        y: 0,
-        shape: [[1]]
-    };
-// 新しいブロックを置けない場合の処理（すでに固定ブロックがある場合）
-    if (board[currentPiece.y][currentPiece.x] !== 0) {
-        gameOver = true;
-        // ゲームオーバーアラート
-        alert("GAME OVER");
-    }
-}
+function startGravity() {
+    // 速度変更のためにIDを保存
+    dropInterval = setInterval(() => {
 
-// 落下ブロックの挙動
-function canMoveDown() {
-    // 一番下なら止まる
-    if (currentPiece.y >= ROWS - 1) {
-        return false;
-    }
-    // 落下ブロックの下に固定ブロックがある場合止まる
-    if (board[currentPiece.y + 1][currentPiece.x] !== 0) {
-        return false;
-    }
-    return true;
-}
-
-// 重力
-setInterval(() => {
-    // ゲームオーバーになったら
+     // ゲームオーバーになったら
     if (gameOver) return;
+
     // 下に空きがあるかつ、一番下でない場合yを+1して下に移動させる
     if (canMoveDown()) {
         currentPiece.y++;
+
     // 下に動けない場合
     } else {
         // 落下ブロックを固定化
@@ -98,14 +120,13 @@ setInterval(() => {
     }
 
     // 処理が1秒ごとに実行される
-    render()
-}, 1000);
-
-// 固定処理
-function fixPice() {
-    board[currentPiece.y][currentPiece.x] = 1;
+    render();
+    },dropSpeed);
 }
 
-// ゲームオーバー判定
-let gameOver = false;
+
+
+// 実行
+startGravity()
+
 

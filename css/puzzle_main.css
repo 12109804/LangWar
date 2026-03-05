@@ -12,10 +12,10 @@
 
 /* 値がある場合の色 */
 .filled {
-    background-color: rgb(4, 0, 255);
+    background-color: rgb(255, 235, 0);
 }
 
 /* 落下ブロック */
 .current {
-    background: rgb(241, 241, 246);
+    background: rgb(255, 235, 0);
 }
