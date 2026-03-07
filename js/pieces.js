@@ -1,5 +1,5 @@
 // shape 定義,pieces生成ロジック
-const PIECES = [
+export const PIECES = [
     {
         name: "I",
         shape: [[1,1,1,1]], 

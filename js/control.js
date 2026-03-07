@@ -1,33 +1,38 @@
+import { forEachBlock } from "./utils.js";
+
 // 下keyを入力した瞬間だけ実行し、押しっぱなしは実行しない
 let isSoftDropping = false;
 
 // 横移動(左右移動処理)
 // 左移動
-function canMoveLeft() {
-    // x左端なら止める
-    if (currentPiece.x <= 0)
-        return false;
-    // 左側にブロックがあれば止める
-    if (board[currentPiece.y][currentPiece.x - 1] !== 0) {
-        return false;
-    }
-    // それ以外はOK
-    return true;
-}
+export function canMoveLeft() {
+    let can = true
+    
+    forEachBlock(currentPiece.shape, (dy,dx) => {
+        const newY = currentPiece.y + dy;
+        const newX = currentPiece.x + dx - 1;
+        // 左端または、左側にブロックがあれば止める
+        if (newX < 0 || board[newX][newY] !== 0) {
+            can = false;
+        }
+    });
+    return can;
+}; 
 
 // 右移動
-function canMoveRight() {
-    // xが右端なら止める
-    if (currentPiece.x >= COLS - 1)
-        return false;
-    // 右側にブロックがあれば止める
-    if (board[currentPiece.y][currentPiece.x + 1] !== 0) {
-        return false
-    }
-    // それ以外はOK
-    return true;
-}
+export function canMoveRight() {
+    let can = true
 
+    forEachBlock(currentPiece,shape, (dy,dx) => {
+        const newY = currentPiece.y + dy;
+        const newX = currentPiece.x + dx + 1;
+        // 右端または、右側にブロックがあれば止める
+        if (newX >= COLS || board[newY][newX] !== 0) { 
+            can = true
+        }
+    });
+    return can;
+};
 
 
 // キーボード入力
@@ -59,7 +64,7 @@ document.addEventListener("keydown",(event) => {
         startGravity();
     }
     // 画面の描画を行う（見た目を滑らかにするため）
-    render();
+        render();
 });
 
 // キーを離した時の挙動
