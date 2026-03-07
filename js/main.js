@@ -1,3 +1,8 @@
+import { forEachBlock } from "./utils.js";
+import { PIECES } from "./pieces.js";
+import {  } from "./control.js"; 
+
+
 // 1.Board （盤面）データ構造 
 const ROWS = 12; /* 行（縦） */
 const COLS = 7; /* 列（横） */
@@ -6,24 +11,6 @@ let board = Array.from({length: ROWS }, () =>
     // 各行に長さ〇の配列をつくる（中身はすべて０）
     Array(COLS).fill(0)
 );
-
-// ブロックデータをcallbackに渡す関数
-function forEachBlock(currentPiece,callback) {
-    // ピースの情報を取得（形）
-    const shape = PIECES.shape;
-    // ピースのshapeのマスをループ処理で取得（座標）
-    for (let dy = 0; dy < shape.length; dy++) {
-        for(let dx = 0; dx < shape.length; dx++)
-            // ブロックの存在するマスに処理を追加[1の場所のみ]
-        if (shape[dy][dx] !== 0) {
-            // 盤面上の座標を計算（形と位置情報の統合）
-            const boardY = currentPiece.y + dy
-            const boardX = currentPiece.x + dx
-            // コールバックでデータ（４つ）を渡す
-            callback(boardX, boardY,dx,dy)
-        }
-    }
-}
 
 // 2.落下ブロック(最初のブロック)
 let currentPiece = {
@@ -69,7 +56,7 @@ function canMoveDown() {
 // 5.固定処理
 function fixPiece() {
     forEachBlock(currentPiece,(x,y) => {
-        board[x][y] = 1;  /* 盤面に書き込む（１にする） */
+        board[y][x] = 1;  /* 盤面に書き込む（１にする） */
     });
 }
 
@@ -85,39 +72,29 @@ function render() {
     // 描画（画面のリセット）
     boardElement.innerHTML = "";
 
-    // 2重ループ（行から列)
+    // 固定ブロックの描画、2重ループ（行から列)
     for (let row = 0; row < ROWS; row++) {
         for (let col = 0; col < COLS; col++) {
             // 毎回新しいマスをメモリ上に作成し、クラスを適応させる
             const cell = document.createElement("div");
             cell.classList.add("cell");
-            // 値が0以外の場合、クラスを適応　// 固定ブロック
+            // 値が0以外の場合、クラスを適応 // 固定ブロック
             if (board[row][col] !== 0) {
                 cell.classList.add("filled");
-            }
-            /// 落下ブロック（shape 全体）を描画
-            if (currentPiece) {
-                for (let dy = 0; dy < currentPiece.shape.length; dy++) {
-                    for (let dx = 0; dx < currentPiece.shape[dy].length; dx++) {
-
-                        // shape の中で 1 の部分だけ描画対象
-                        if (currentPiece.shape[dy][dx] !== 0) {
-
-                            // 盤面上の座標に変換
-                            const pieceY = currentPiece.y + dy;
-                            const pieceX = currentPiece.x + dx;
-
-                            // 今描画しているマス(row,col)と一致したら current を付ける
-                            if (row === pieceY && col === pieceX) {
-                                cell.classList.add("current");
-                            }
-                        }
-                    }
                 }
-            }
-            // 作成されたマスをboardの中、末尾から順に追加
             boardElement.appendChild(cell);
         }
+    }
+    /// 落下ブロック（shape 全体）を描画
+    if (currentPiece) {
+        forEachBlock(currentPiece, (x,y) => {
+            const index = y * COLS + x; /* １次元インデックスに変換 */
+            const cell = boardElement.children[index];
+            // 今描画しているマス(row,col)と一致したら current を付ける
+            if (cell) {
+                cell.classList.add("current");
+            }
+        });
     }
 }
 
