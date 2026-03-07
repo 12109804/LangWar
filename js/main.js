@@ -1,14 +1,29 @@
-// 1.Board （盤面）
-// データ構造 12×7マス
-    // 行（縦）
-const ROWS = 12; 
-    // 列（横）
-const COLS = 7;
+// 1.Board （盤面）データ構造 
+const ROWS = 12; /* 行（縦） */
+const COLS = 7; /* 列（横） */
 // 配列を構築
 let board = Array.from({length: ROWS }, () =>
     // 各行に長さ〇の配列をつくる（中身はすべて０）
     Array(COLS).fill(0)
 );
+
+// ブロックデータをcallbackに渡す関数
+function forEachBlock(currentPiece,callback) {
+    // ピースの情報を取得（形）
+    const shape = PIECES.shape;
+    // ピースのshapeのマスをループ処理で取得（座標）
+    for (let dy = 0; dy < shape.length; dy++) {
+        for(let dx = 0; dx < shape.length; dx++)
+            // ブロックの存在するマスに処理を追加[1の場所のみ]
+        if (shape[dy][dx] !== 0) {
+            // 盤面上の座標を計算（形と位置情報の統合）
+            const boardY = currentPiece.y + dy
+            const boardX = currentPiece.x + dx
+            // コールバックでデータ（４つ）を渡す
+            callback(boardX, boardY,dx,dy)
+        }
+    }
+}
 
 // 2.落下ブロック(最初のブロック)
 let currentPiece = {
@@ -38,51 +53,24 @@ function spawnPiece() {
 
 // 4.落下ブロックの挙動
 function canMoveDown() {
-    const shape = currentPiece.shape;
-    // pieceの形の座標をチェックする
-    for (let dy = 0; dy < shape.length; dy++) {
-        for (let dx = 0; dx < shape[dy].length; dx++) {
-
-            // shape の中で 1 の部分だけ判定
-            if (shape[dy][dx] !== 0) {
-
-                // pieceの形と位置を足して判定可能な座標に変換する
-                // 落下処理のみ一つ下を調べる必要があるので＋１
-                const newY = currentPiece.y + dy + 1; // 下に1マス
-                const newX = currentPiece.x + dx;
-
-                // ① 一番下に到達したら動けない
-                if (newY >= ROWS) {
-                    return false;
-                }
-
-                // ② 下に固定ブロックがあるなら動けない
-                if (board[newY][newX] !== 0) {
-                    return false;
-                }
-            }
+    let canMove = true;
+    // 関数の呼び出し各ブロックを調べる
+    forEachBlock(currentPiece, (x,y) => {
+        const newY = y + 1;   
+        /*１マス下へ行くとどうなるか調べる */
+        // 一番下に到達、または下に固定ブロックがある場合falseを返す
+        if (newY >= ROWS || board[newY][x] !== 0) {
+            canMove = false
         }
-    }
-
-    return true;
+    });
+    return canMove;
 }
 
 // 5.固定処理
 function fixPiece() {
-    const shape = currentPiece.shape;
-
-    for (let dy = 0; dy < shape.length; dy++) {
-        for (let dx = 0; dx < shape[dy].length; dx++) {
-
-            if (shape[dy][dx] !== 0) {
-                const boardY = currentPiece.y + dy;
-                const boardX = currentPiece.x + dx;
-
-                // 盤面に書き込む
-                board[boardY][boardX] = 1;
-            }
-        }
-    }
+    forEachBlock(currentPiece,(x,y) => {
+        board[x][y] = 1;  /* 盤面に書き込む（１にする） */
+    });
 }
 
 // 6.描画 render
