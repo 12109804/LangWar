@@ -16,3 +16,35 @@ export function forEachBlock(currentPiece,callback) {
         }
     }
 }
+
+// 横移動(左右移動処理)
+// 左移動
+export function canMoveLeft() {
+    let can = true
+    
+    forEachBlock(currentPiece, (boardX, boardY, dx, dy) => {
+        const newX = boardX + dx - 1;
+        const newY = boardY + dy;
+        // 左端または、左側にブロックがあれば止める
+        if (newX < 0 || board[newY][newX] !== 0) {
+            can = false;
+        }
+    });
+    return can;
+}; 
+
+// 右移動
+export function canMoveRight() {
+    let can = true
+
+    forEachBlock(currentPiece, (boardX, boardY, dx, dy) => {
+        const newX = boardX + dx + 1;
+        const newY = boardY + dy;
+        // 右端または、右側にブロックがあれば止める
+        if (newX >= COLS || board[newY][newX] !== 0) { 
+            can = false;
+        }
+    });
+    return can;
+};
+
