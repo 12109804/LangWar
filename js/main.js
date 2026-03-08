@@ -1,25 +1,17 @@
 import { forEachBlock } from "./utils.js";
+import { ROWS, COLS, board, getCell, setCell } from "./board.js";
 import { PIECES } from "./pieces.js";
-import {  } from "./control.js"; 
+import  "./control.js"; 
 
 
-// 1.Board （盤面）データ構造 
-const ROWS = 12; /* 行（縦） */
-const COLS = 7; /* 列（横） */
-// 配列を構築
-let board = Array.from({length: ROWS }, () =>
-    // 各行に長さ〇の配列をつくる（中身はすべて０）
-    Array(COLS).fill(0)
-);
-
-// 2.落下ブロック(最初のブロック)
+// 落下ブロック(最初のブロック)
 let currentPiece = {
     x: 3,
     y: 0,
     shape: [[1,0],[1,0]]
 };
 
-// 3.落下ブロック（新しいブロック）
+// 落下ブロック（新しいブロック）
 function spawnPiece() {
     // ピースの要素数を整数かつランダムに取得
     const randomIndex = Math.floor(Math.random() * PIECES.length);
@@ -38,7 +30,7 @@ function spawnPiece() {
     };
 }
 
-// 4.落下ブロックの挙動
+// 落下ブロックの挙動
 function canMoveDown() {
     let canMove = true;
     // 関数の呼び出し各ブロックを調べる
@@ -53,14 +45,14 @@ function canMoveDown() {
     return canMove;
 }
 
-// 5.固定処理
+// 固定処理
 function fixPiece() {
     forEachBlock(currentPiece,(x,y) => {
         board[y][x] = 1;  /* 盤面に書き込む（１にする） */
     });
 }
 
-// 6.描画 render
+// 描画 render
 function render() {
     // 画面先のHTMLの要素を取得
     const boardElement = document.getElementById("board");
@@ -98,7 +90,7 @@ function render() {
     }
 }
 
-// 7. Gravity(落下処理)
+// Gravity(落下処理)
 // 通常速度
 let dropSpeed = 1000;  
 let dropInterval;
@@ -129,6 +121,87 @@ function startGravity() {
     render();
     },dropSpeed);
 }
+
+
+// 下keyを入力した瞬間だけ実行し、押しっぱなしは実行しない
+let isSoftDropping = false;
+
+// 横移動(左右移動処理)
+// 左移動
+function canMoveLeft() {
+    let can = true
+    
+    forEachBlock(currentPiece, (boardX, boardY, dx, dy) => {
+        const newX = boardX + dx - 1;
+        const newY = boardY + dy;
+        // 左端または、左側にブロックがあれば止める
+        if (newX < 0 || board[newY][newX] !== 0) {
+            can = false;
+        }
+    });
+    return can;
+}; 
+
+// 右移動
+function canMoveRight() {
+    let can = true
+
+    forEachBlock(currentPiece, (boardX, boardY, dx, dy) => {
+        const newX = boardX + dx + 1;
+        const newY = boardY + dy;
+        // 右端または、右側にブロックがあれば止める
+        if (newX >= COLS || board[newY][newX] !== 0) { 
+            can = false;
+        }
+    });
+    return can;
+};
+
+
+// キーボード入力
+// キーが押された瞬間関数を実行
+document.addEventListener("keydown",(event) => {
+
+    // ゲームオーバーなら操作を無効化
+    if (gameOver) return;
+    // ←入力で関数を実行し、左へ１マス移動
+    if (event.key === "ArrowLeft") {
+        if (canMoveLeft()) {
+            currentPiece.x--;
+        }
+    }
+    // →入力で関数を実行し、右へ１マス移動
+    if (event.key === "ArrowRight") {
+        if (canMoveRight()) {
+            currentPiece.x++;
+        }
+    }
+    // ↓入力で速度を高速化
+    if (event.key === "ArrowDown" &&! isSoftDropping) {
+        isSoftDropping = true
+        // インターバルを止める
+        clearInterval(dropInterval);
+        // 速度を加速
+        dropSpeed = 100;
+        // 加速を実行
+        startGravity();
+    }
+    // 画面の描画を行う（見た目を滑らかにするため）
+        render();
+});
+
+// キーを離した時の挙動
+document.addEventListener("keyup", (event) => {
+
+    if (event.key === "ArrowDown") {
+
+        isSoftDropping = false;
+
+        clearInterval(dropInterval);
+        dropSpeed = 1000;
+        startGravity();
+    }
+});
 
 
 // 実行
