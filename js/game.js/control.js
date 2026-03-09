@@ -19,11 +19,10 @@ let isMovingRight = false;
 export function canMoveLeft() {
     let can = true;
     
-    forEachBlock(currentPiece, (boardX, boardY, dx, dy) => {
+    forEachBlock(currentPiece, (boardX, boardY) => {
         const newX = boardX - 1;
-        const newY = boardY + dy;
         // 左端または、左側にブロックがあれば止める
-        if (newX < 0 || board[newY][newX] !== 0) {
+        if (newX < 0 || board[boardY][newX] !== 0) {
             can = false;
         }
     });
@@ -34,11 +33,10 @@ export function canMoveLeft() {
 export function canMoveRight() {
     let can = true;
 
-    forEachBlock(currentPiece, (boardX, boardY, dx, dy) => {
+    forEachBlock(currentPiece, (boardX, boardY) => {
         const newX = boardX + 1;
-        const newY = boardY + dy;
         // 右端または、右側にブロックがあれば止める
-        if (newX >= COLS || board[newY][newX] !== 0) { 
+        if (newX >= COLS || board[boardY][newX] !== 0) { 
             can = false;
         }
     });
@@ -71,7 +69,7 @@ document.addEventListener("keydown",(event) => {
         // インターバルを止める
         clearInterval(dropInterval);
         // 速度を加速
-        dropSpeed.value = 1000;
+        dropSpeed.value = 100;
         // 加速を実行
         startGravity();
     }
@@ -82,11 +80,17 @@ document.addEventListener("keydown",(event) => {
 // キーを離した時の挙動
 document.addEventListener("keyup", (event) => {
     
+    if (event.key === "ArrowLeft") {
+        isMovingLeft = false;
+    }
+    if (event.key === "ArrowRight") {
+        isMovingRight = false;
+    }
     if (event.key === "ArrowDown") {
         isSoftDropping = false;
 
         clearInterval(dropInterval);
-        dropSpeed = 1000;
+        dropSpeed.value = 1000;
         startGravity();
     }
 });
