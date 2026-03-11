@@ -1,3 +1,12 @@
+body {
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    
+}
+
 #board {
     gap: 0;
 }
@@ -6,16 +15,17 @@
 .cell {
     width: 40px;
     height: 40px;
-    border: 1px solid #000000;
+    background-color: rgb(6, 6, 37);
+    border: 1px solid #231c86;
     box-sizing: border-box;
 }
 
 /* 値がある場合の色 */
 .filled {
-    background-color: rgb(255, 235, 0);
+    background-color: rgb(181, 171, 71);
 }
 
 /* 落下ブロック */
 .current {
-    background: rgb(255, 235, 0);
+    background: rgb(100, 97, 70);
 }
