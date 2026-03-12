@@ -16,3 +16,22 @@ export function forEachBlock(currentPiece,callback) {
         }
     }
 }
+
+// 回転関数
+export function rotateMatrix(matrix) {
+    // 回転時に動く最大値を取得(x,y)
+    const rows = matrix.length;
+    const cols = matrix[0].length;
+    // 空の配列をつくる
+    const rotated = [];
+    // 外側ループで行をつくる
+    for (let col = 0; col < cols; col++) {
+        rotated[col] = [];
+    // 内側ループで元の行を逆順に読む
+        for (let row = rows - 1; row >= 0; row--) {
+            // 新しい配列に逆順に並べながら配列を構築
+            rotated[col].push(matrix[row][col]);
+        } 
+    }
+    return rotated;   /* 配列を返す */
+}
