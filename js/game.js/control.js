@@ -7,13 +7,13 @@ import {
     dropSpeed,
 } from "./state.js";
 import { forEachBlock, rotateMatrix } from "./utils.js";
-import { board, COLS } from "./board.js";
+import { board, COLS, ROWS } from "./board.js";
 
 // 下keyを入力した瞬間だけ実行し、押しっぱなしは実行しない
 let isSoftDropping = false;
 let isMovingLeft = false;
 let isMovingRight = false;
-
+let isRotateRight = false
 
 // 左移動
 export function canMoveLeft() {
@@ -44,43 +44,39 @@ export function canMoveRight() {
 }
 
 // 回転
-export function rotatePiece() {
+export function rotateRight() {
     // pieceのshapeを回転させる
-    const rotated = rotatePiece(currentPiece.shape);
+    const rotated = rotateMatrix(currentPiece.shape);
     // 回転後の形が置けるかチェックする
-    if(canPiece(currentPiece.x, currentPiece.y, rotated)) {
+    if(canRotateRight(rotated)) {
         currentPiece.shape = rotated;
     }
 }
 
 // 回転時の衝突チェック関数（重要）
-export function canPiece(currentPiece, board, COLS, ROWS) {
+export function canRotateRight(rotatedShape) {
     let can = true;
-
-    forEachBlock(currentPiece, (boardX, boardY) => {
-
-        // 左右の壁チェック
-        if (boardX < 0 || boardX >= COLS) {
-            can = false;
-            return;
-        }
-
-        // 下の壁チェック
-        if (boardY < 0 || boardY >= ROWS) {
-            can = false;
-            return;
-        }
-
-        // 他のブロックとの衝突チェック
-        if (board[boardY][boardX] !== 0) {
-            can = false;
-            return;
-        }
-    });
-
+    // 開店後の形を渡す（forEachBlockが回転後の座標を計算）
+        forEachBlock(
+            {x: currentPiece.x, y: currentPiece.y, shape: rotatedShape },
+            (boardX, boardY) => {
+            // 座標が壁やブロックに衝突しないかチェック
+                if (boardX < 0 || boardX >= COLS) {    /* 左右の壁をチェック */
+                    can = false;
+                    return;
+                }
+                if (boardY < 0 || boardY >= ROWS) {    /* 下の壁をチェック */
+                    can = false;
+                    return;
+                }
+                if (board[boardY][boardX] !== 0) {    /* 他のブロックとの衝突チェック */
+                    can = false
+                    return;
+                }
+            }
+    );
     return can;
 }
-
 
 // キーボード入力  キーが押された瞬間関数を実行
 document.addEventListener("keydown",(event) => {
@@ -100,6 +96,11 @@ document.addEventListener("keydown",(event) => {
         if (canMoveRight()) {
             currentPiece.x++;
         }
+    }
+    // ↑入力で関数を実行し、右に90度回転
+    if (event.key === "ArrowUp" &&! isRotateRight) {
+        isRotateRight = true;
+        rotateRight();
     }
     // ↓入力で速度を高速化
     if (event.key === "ArrowDown" &&! isSoftDropping) {
@@ -126,9 +127,12 @@ document.addEventListener("keyup", (event) => {
     }
     if (event.key === "ArrowDown") {
         isSoftDropping = false;
-
-        clearInterval(dropInterval);
-        dropSpeed.value = 1000;
-        startGravity();
+        // ソフトドロップ解除時だけ落下速度を戻す
+        clearInterval(dropInterval);  /* インターバルを止める */
+        dropSpeed.value = 1000;       /* 速度を戻す */
+        startGravity();               /* 落下再開 */
+    }
+    if (event.key === "ArrowUp") {
+        isRotateRight = false;
     }
 });
