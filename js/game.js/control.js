@@ -6,7 +6,7 @@ import {
     dropInterval,
     dropSpeed,
 } from "./state.js";
-import { forEachBlock } from "./utils.js";
+import { forEachBlock, rotateMatrix } from "./utils.js";
 import { board, COLS } from "./board.js";
 
 // 下keyを入力した瞬間だけ実行し、押しっぱなしは実行しない
@@ -40,6 +40,44 @@ export function canMoveRight() {
             can = false;
         }
     });
+    return can;
+}
+
+// 回転
+export function rotatePiece() {
+    // pieceのshapeを回転させる
+    const rotated = rotatePiece(currentPiece.shape);
+    // 回転後の形が置けるかチェックする
+    if(canPiece(currentPiece.x, currentPiece.y, rotated)) {
+        currentPiece.shape = rotated;
+    }
+}
+
+// 回転時の衝突チェック関数（重要）
+export function canPiece(currentPiece, board, COLS, ROWS) {
+    let can = true;
+
+    forEachBlock(currentPiece, (boardX, boardY) => {
+
+        // 左右の壁チェック
+        if (boardX < 0 || boardX >= COLS) {
+            can = false;
+            return;
+        }
+
+        // 下の壁チェック
+        if (boardY < 0 || boardY >= ROWS) {
+            can = false;
+            return;
+        }
+
+        // 他のブロックとの衝突チェック
+        if (board[boardY][boardX] !== 0) {
+            can = false;
+            return;
+        }
+    });
+
     return can;
 }
 
