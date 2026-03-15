@@ -6,7 +6,7 @@ import {
     dropInterval,
     dropSpeed,
 } from "./state.js";
-import { forEachBlock, rotateMatrix } from "./utils.js";
+import { forEachBlock, rotateMatrix, canPlace} from "./utils.js";
 import { board, COLS, ROWS } from "./board.js";
 
 // 下keyを入力した瞬間だけ実行し、押しっぱなしは実行しない
@@ -43,39 +43,30 @@ export function canMoveRight() {
     return can;
 }
 
-// 回転
+// 回転(簡易的 SRS system)
 export function rotateRight() {
     // pieceのshapeを回転させる
     const rotated = rotateMatrix(currentPiece.shape);
-    // 回転後の形が置けるかチェックする
-    if(canRotateRight(rotated)) {
-        currentPiece.shape = rotated;
+    // 壁キックの候補
+    const kicks = [
+        {x: 0, y: 0},
+        {x: -1, y: 0},
+        {x: 1, y: 0},
+        {x: -2, y: 0},
+        {x: 2, y: 0}
+    ];
+    // キックの候補を順に試す(新しい座標を構築)
+    for (let kick of kicks) {
+        const newX = currentPiece.x + kick.x;
+        const newY = currentPiece.y + kick.y;
+    // 新しい座標に置けるか判定
+        if (canPlace(newX, newY, rotated)) {
+            currentPiece.x = newX;
+            currentPiece.y = newY;
+            currentPiece.shape = rotated;
+            return; 
+        }
     }
-}
-
-// 回転時の衝突チェック関数（重要）
-export function canRotateRight(rotatedShape) {
-    let can = true;
-    // 開店後の形を渡す（forEachBlockが回転後の座標を計算）
-        forEachBlock(
-            {x: currentPiece.x, y: currentPiece.y, shape: rotatedShape },
-            (boardX, boardY) => {
-            // 座標が壁やブロックに衝突しないかチェック
-                if (boardX < 0 || boardX >= COLS) {    /* 左右の壁をチェック */
-                    can = false;
-                    return;
-                }
-                if (boardY < 0 || boardY >= ROWS) {    /* 下の壁をチェック */
-                    can = false;
-                    return;
-                }
-                if (board[boardY][boardX] !== 0) {    /* 他のブロックとの衝突チェック */
-                    can = false
-                    return;
-                }
-            }
-    );
-    return can;
 }
 
 // キーボード入力  キーが押された瞬間関数を実行
