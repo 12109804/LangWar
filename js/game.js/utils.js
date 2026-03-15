@@ -1,3 +1,5 @@
+import { board, COLS, ROWS } from "./board.js";
+
 // ブロックデータをcallbackに渡す関数
 export function forEachBlock(currentPiece,callback) {
         // ピースの情報を取得（形）
@@ -34,4 +36,24 @@ export function rotateMatrix(matrix) {
         } 
     }
     return rotated;   /* 配列を返す */
+}
+
+// 判定関数
+export function canPlace(x, y, shape) {
+    // shapeのセル調査
+    for (let r = 0; r < shape.length; r++) {
+        for (let c = 0; c < shape[r].length; c++) {
+            // 空白は無視（０）
+            if (shape[r][c] === 0) continue;
+            // 絶対座標に変換
+            const newX = x + c;
+            const newY = y + r;
+            // 左右の壁と下の壁のチェック
+            if (newX < 0 || newX >= COLS) return false;
+            if (newY >= ROWS) return false;
+                                // ブロックとの衝突チェック
+            if (board[newY][newX] !== 0) return false;
+        }
+    }
+    return true;  /* 問題なければtrue */
 }
