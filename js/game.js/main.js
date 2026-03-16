@@ -9,7 +9,7 @@ import {
 } from "./state.js"
 
 import { forEachBlock } from "./utils.js";
-import { ROWS, COLS, board} from "./board.js";
+import { ROWS, COLS, board,} from "./board.js";
 import "./control.js";
 
 // 実行

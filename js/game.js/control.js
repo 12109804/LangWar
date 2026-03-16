@@ -8,6 +8,8 @@ import {
 } from "./state.js";
 import { forEachBlock, rotateMatrix, canPlace} from "./utils.js";
 import { board, COLS, ROWS } from "./board.js";
+import {kicksI, kicksNormal} from "./wallkick.js"
+
 
 // 下keyを入力した瞬間だけ実行し、押しっぱなしは実行しない
 let isSoftDropping = false;
@@ -15,7 +17,7 @@ let isMovingLeft = false;
 let isMovingRight = false;
 let isRotateRight = false
 
-// 左移動
+/// 左移動
 export function canMoveLeft() {
     let can = true;
     
@@ -43,18 +45,25 @@ export function canMoveRight() {
     return can;
 }
 
-// 回転(簡易的 SRS system)
+// 回転(SRS system) 
 export function rotateRight() {
+    // ピースの向きを定義（未定義なら０をいれる）向き(上0,右1,下2,左3)
+    if (currentPiece.rotation == null) {
+        currentPiece.rotation = 0;
+    }
+    // 古い向きから新しい向きを決める
+    const oldRotation = currentPiece.rotation;
+    // 右回転で+1、4で割ったあまりにすることで０にする
+    const newRotation = (oldRotation + 1) % 4;
     // pieceのshapeを回転させる
     const rotated = rotateMatrix(currentPiece.shape);
-    // 壁キックの候補
-    const kicks = [
-        {x: 0, y: 0},
-        {x: -1, y: 0},
-        {x: 1, y: 0},
-        {x: -2, y: 0},
-        {x: 2, y: 0}
-    ];
+    // Iブロックかどうか判定
+    const isI = currentPiece.name === "I";
+    // キーを作成
+    const key = `${oldRotation}->${newRotation}`;
+    // 正しい壁キックを選ぶ
+    const kicks = isI ? kicksI[key] : kicksNormal[key];
+
     // キックの候補を順に試す(新しい座標を構築)
     for (let kick of kicks) {
         const newX = currentPiece.x + kick.x;
@@ -64,6 +73,7 @@ export function rotateRight() {
             currentPiece.x = newX;
             currentPiece.y = newY;
             currentPiece.shape = rotated;
+            currentPiece.rotation = newRotation;
             return; 
         }
     }

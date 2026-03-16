@@ -20,7 +20,7 @@ body {
     box-sizing: border-box;
 }
 
-/* 値がある場合の色 */
+/* 値がある場合 */
 .filled {
     background-color: rgb(161, 151, 46);
 }
