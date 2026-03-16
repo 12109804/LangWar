@@ -1,5 +1,5 @@
 import { forEachBlock } from "./utils.js";
-import {ROWS, COLS, board } from './board.js';
+import {ROWS, COLS, board, clearLines} from './board.js';
 import { PIECES } from "./pieces.js";
 
 
@@ -20,7 +20,7 @@ export function spawnPiece() {
         delete currentPiece[key];
     }
     // 新しいピースを代入（参照はそのまま）
-    currentPiece.x = Math.floor(COLS / 2);
+    currentPiece.x = Math.floor(COLS / 3);
     currentPiece.y = 0;
     currentPiece.shape = piece.shape;
         
@@ -52,6 +52,8 @@ export function fixPiece() {
     forEachBlock(currentPiece,(x,y) => {
         board[y][x] = 1;  /* 盤面に書き込む（１にする） */
     });
+    clearLines();  
+    spawnPiece();
 }
 
 // 描画 render
