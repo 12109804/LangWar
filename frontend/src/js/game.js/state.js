@@ -118,3 +118,10 @@ export function startGravity() {
     render();
     },dropSpeed.value);
 }
+
+export function initGame()  {
+    clearLines();
+    spawnPiece();
+    render();
+    startGravity();
+}
