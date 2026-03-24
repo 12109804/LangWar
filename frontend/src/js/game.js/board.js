@@ -25,13 +25,19 @@ export function setCell(y, x, value) {
 
 // ライン消去処理
 export function clearLines() {
+
+    let linesCleared = 0;   
+
     // 下から上にループする
     for (let row = ROWS - 1; row >= 0; row--) {
         // その行がすべて埋まっているかチェックする
         if (board[row].every(cell => cell !== 0)) {
             board.splice(row, 1);    // 行消去
             board.unshift(Array(COLS).fill(0));    // 上に新しい空行を追加
+
+            linesCleared++;
             row++;    // 同じ行をもう一度チェックする 
         }
     }
+    return linesCleared;
 }
