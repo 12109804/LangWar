@@ -1,6 +1,8 @@
 import { forEachBlock } from "./utils.js";
 import {ROWS, COLS, board, clearLines} from './board.js';
 import { PIECES } from "./pieces.js";
+import { addScore, combo, increaseCombo, resetCombo } from "./score.js";
+import { updateScoreUI } from "../ui.js/game-score.js";
 
 
 
@@ -52,7 +54,16 @@ export function fixPiece() {
     forEachBlock(currentPiece,(x,y) => {
         board[y][x] = 1;  /* 盤面に書き込む（１にする） */
     });
-    clearLines();  
+    // 行消去
+    const lines = clearLines();  
+    // スコアの加算
+    if (lines > 0) {
+        increaseCombo();
+        addScore(lines);
+    } else {
+        resetCombo();
+    }
+    updateScoreUI();
     spawnPiece();
 }
 
@@ -60,7 +71,7 @@ export function fixPiece() {
 export function render() {
     // 画面先のHTMLの要素を取得
     const boardElement = document.getElementById("board");
-
+    
     // グリッドレイアウト有効
     boardElement.style.display = "grid";
     // 列の数を表示、各列の幅固定
