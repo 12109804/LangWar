@@ -4,12 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../src/css/start_screen.css">
+    <link rel="stylesheet" href="../src/css/layout.css">
     <link rel="stylesheet" href="../src/css/puzzle_main.css">
     <title>LangWar</title>
 </head>
 <body>
     <!-- ゲームスタート画面 -->
-    <div class="start-screen" style="display: none;">
+    <div class="start-screen" id="start-screen" style="display: none;">
         <h1 class="title-logo">
             <span class="logo">L</span>
             <span class="logo">a</span>
@@ -20,16 +21,24 @@
             <span class="logo">r</span>
         </h1>
         <div class="btn-container">
-        <button id="btn" class="start-btn">START</button>
-        <button id="btn" class="exit-btn">HOU TO PLAY</button>
-        <button id="btn" class="exit-btn">ACCOUNT</button>
-        <button id="btn" class="setting-btn">Setting</button>
+            <button id="start-btn" class="btn start-btn">START GAME</button>
+            <button id="howto-btn" class="btn exit-btn">HOW TO PLAY</button>
+            <button id="account-btn" class="btn exit-btn">ACCOUNT</button>
+            <button id="setting-btn" class="btn setting-btn">Setting</button>
         </div>
     </div>
     <!-- ゲーム画面 -->
     <div id="game-screen">
+        <div class="sub-panel">
+
+            <div class="score-title"></div>
+            <div id="score-value" class="score-value">00000000</div>
+            
+        </div>
+
         <div id="board"></div>
+
     </div>
-    <script type="module" src="../src/js/game.js/main.js"></script>
+    <script type="module" src="../src/js/game.js/main.js" defer></script>
 </body>
 </html>        

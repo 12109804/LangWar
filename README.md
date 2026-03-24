@@ -83,9 +83,24 @@
 - Frontend: JavaScript / HTML / CSS
 - Game Engine: Canvas API
 - Backend: Node.js / Python
-- Database: Mysql
+- Database: SQLite
 
-※学習、基礎理解の向上、本質理解を重視しているため、AIやモダン技術、framework、library、などは最小限で、VanillaJSなどできるだけベーシックなもので自己思考構築を意識しています、モダン技術はキャラクターやスキル導入時に導入アップデート予定です。
+※学習、基礎理解の向上、本質理解を重視しているため、AIやモダン技術、framework、library、などは最小限で、VanillaJSなど
+できるだけベーシックなもので自己思考構築を意識しています、モダン技術はキャラクターやスキル導入時に随時アップデート予定です。
+
+### 🛠 導入予定スタック
+
+-Frontend: Next.js(React)
+
+-ランキングページ（SSR/ISR）
+-ゲーム説明ページ（SSG）
+-ログイン機能 (SSR)
+
+※ゲーム本体のロジックは触れない( VanillaJS,canvasAPI,WebGL(Pixi.js) )
+
+-Database: Mysql or PostgreSQL
+
+-オンラインランキング
 
 ---
 
