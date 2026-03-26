@@ -5,7 +5,8 @@ import {
     gameOver,
     fixPiece,
     render,
-    startGravity
+    startGravity,
+    initGame
 } from "./state.js"
 
 import { forEachBlock } from "./utils.js";
@@ -14,13 +15,19 @@ import "./control.js";
 
 // 実行
 document.addEventListener("DOMContentLoaded", () => {
-    spawnPiece();
-    render(); 
-    startGravity();
-})
+    const $startBtn = document.getElementById("start-btn");
+    const $startScreen = document.getElementById("start-screen");
+    const $gameScreen = document.getElementById("game-screen");
+
+    $startBtn.addEventListener("click", () => {
+        $startScreen.style.display = "none";
+        $gameScreen.style.display = "block";
+        initGame();
+    });
+});
 
 
-
+initGame();
 
 
 
