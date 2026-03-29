@@ -101,7 +101,7 @@ body {
     transition: transform 0.2s ease;
 }
 
-#btn:hover {
+.btn:hover {
     transform: scale(1.05);
     background-color: rgb(255, 255, 255);
 }
