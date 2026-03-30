@@ -25,3 +25,49 @@
     margin-bottom: 10px;
 }
 
+.gameOver-screen {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0, 0,7);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: aliceblue;
+    font-family: "Consolas", "Courier New", monospace;
+    z-index: 999;
+}
+
+.gameOver-title {
+    font-size: 48px;
+    margin-bottom: 20px;
+    color: #00db2f;
+    letter-spacing: 20px;
+}
+
+.gameOver-score-box {
+    font-size: 20px;
+    margin-bottom: 30px;
+}
+
+.retry-btn,
+.back-title-btn {
+    width: 160px;
+    padding: 12px;
+    margin: 8px;
+    font-size: 18px;
+    border: none;
+    cursor: pointer;
+    background-color:rgba(26, 26, 149, 0.719);
+    color: rgb(255, 255, 255);
+    border: 2px solid #555;
+}
+
+.retry-btn:hover,
+.back-title-btn:hover {
+    background-color: rgb(70, 191, 14);
+    color: #111;
+}
