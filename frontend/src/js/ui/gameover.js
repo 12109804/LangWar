@@ -2,7 +2,6 @@ import { score } from "../game/score.js";
 
 
 export function showGameOverScreen() {
-    document.getElementById("game-screen").style.display = "none";
     document.getElementById("gameOver-screen").style.display = "flex";
 
     // スコアを表示
@@ -12,3 +11,7 @@ export function showGameOverScreen() {
 export function hideGameOverScreen() {
     document.getElementById("gameOver-screen").style.display = "none";
 }
+
+
+
+

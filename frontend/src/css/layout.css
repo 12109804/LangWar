@@ -1,37 +1,48 @@
+/* ゲームスクリーン */
+#game-screen {
+    display: flex;
+    flex-direction: column; 
+    align-items: center;    
+    position: relative;
+}
+
+/* スコア画面 */
 .score-panel {
-    width: 180px;
+    margin: 0 auto 10px;
+    width: 333px;
     padding: 12px;
-    border: 3px solid #444;
-    background: #111;
-    color: #eee;
-    font-family: "Consolas", "Courier New", monospace;
-    box-shadow: 0 0 0 2px #888 inset;
+    margin-bottom: 20px;
+    border: 3px solid #1004fc;
+    background: #fafafa;
+    color: #696d7b;
 }
 
 .score-title {
+    font-family: "Consolas", "Courier New", monospace;
     font-size: 14px;
     letter-spacing: 2px;
     text-align: center;
     margin-bottom: 6px;
-    color: #164acb;
+    color: #1c16cb;
 }
 
 .score-value {
     font-size: 24px;
     text-align: right;
     padding: 6px 8px;
-    border: 2px solid #2f279c;
+    border: 2px solid #9c9027;
     background:rgb(6, 6, 37);
     margin-bottom: 10px;
 }
 
+/* ゲームオーバー画面 */
 .gameOver-screen {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0,0,0, 0,7);
+    background-color: rgba(0,0,0, 0.7);
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -45,7 +56,8 @@
     font-size: 48px;
     margin-bottom: 20px;
     color: #00db2f;
-    letter-spacing: 20px;
+    letter-spacing: 8px;
+    white-space: nowrap;
 }
 
 .gameOver-score-box {
