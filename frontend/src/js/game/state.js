@@ -2,9 +2,8 @@ import { forEachBlock } from "./utils.js";
 import {ROWS, COLS, board, clearLines} from './board.js';
 import { PIECES } from "./pieces.js";
 import { addScore, combo, increaseCombo, resetCombo } from "./score.js";
-import { updateScoreUI } from "../ui.js/game-score.js";
-
-
+import { updateScoreUI } from "../ui/game-score.js";
+import { showGameOverScreen } from "../ui/gameover.js";
 
 /* ゲームオーバー判定 */
 export let gameOver = false;  
@@ -29,8 +28,9 @@ export function spawnPiece() {
 // 新しいブロックを置けない場合の処理（すでに固定ブロックがある場合）
     if (board[currentPiece.y][currentPiece.x] !== 0) {
         gameOver = true;
-        // ゲームオーバーアラート
-        alert("GAME OVER");
+        // ゲームオーバー画面の表示
+        showGameOverScreen();
+        return;
     };
 }
 
@@ -64,7 +64,6 @@ export function fixPiece() {
         resetCombo();
     }
     updateScoreUI();
-    spawnPiece();
 }
 
 // 描画 render

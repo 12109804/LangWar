@@ -1,4 +1,4 @@
-import { score } from "../game.js/score.js";
+import { score } from "../game/score.js";
 
 export function updateScoreUI() {
     document.getElementById("score-value").textContent =

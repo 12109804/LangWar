@@ -1,13 +1,4 @@
-import { 
-    spawnPiece,
-    currentPiece,
-    canMoveDown,
-    gameOver,
-    fixPiece,
-    render,
-    startGravity,
-    initGame
-} from "./state.js"
+import { initGame } from "./state.js"
 
 import { forEachBlock } from "./utils.js";
 import { ROWS, COLS, board,} from "./board.js";
