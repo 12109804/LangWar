@@ -11,10 +11,10 @@
     margin: 0 auto 10px;
     width: 333px;
     padding: 12px;
-    margin-bottom: 20px;
-    border: 3px solid #1004fc;
-    background: #fafafa;
-    color: #696d7b;
+    margin-bottom: 12px;
+    border: 1.4px solid #2f279c;
+    background: rgb(6, 6, 37);
+    color: #d0d0d0;
 }
 
 .score-title {
@@ -23,15 +23,15 @@
     letter-spacing: 2px;
     text-align: center;
     margin-bottom: 6px;
-    color: #1c16cb;
+    color: #2f279c;
 }
 
 .score-value {
     font-size: 24px;
     text-align: right;
     padding: 6px 8px;
-    border: 2px solid #9c9027;
-    background:rgb(6, 6, 37);
+    border: 2px solid rgb(77, 86, 92);
+    background:rgb(5, 5, 35);
     margin-bottom: 10px;
 }
 
@@ -55,9 +55,54 @@
 .gameOver-title {
     font-size: 48px;
     margin-bottom: 20px;
-    color: #00db2f;
     letter-spacing: 8px;
     white-space: nowrap;
+    display: inline-block;
+    animation: bounce 0.5s infinite alternate ease-out;
+}
+
+.logo:nth-child(1) {
+    color: rgb(255, 0, 0);
+    animation-delay: 0s;
+}
+.logo:nth-child(2) {
+    color: rgb(255, 162, 0);
+    animation-delay: 0.1s;
+}
+.logo:nth-child(3) {
+    color: rgb(255, 242, 0);
+    animation-delay: 0.2s;
+}
+.logo:nth-child(4) {
+    color: rgb(38, 255, 0);
+    animation-delay: 0.3s;
+}
+.logo:nth-child(5) {
+    color: rgb(4, 0, 255);
+    animation-delay: 0.4s;
+}
+.logo:nth-child(6) {
+    color: aqua;
+    animation-delay: 0.5s;
+}
+.logo:nth-child(7) {
+    color: rgb(217, 0, 255);
+    animation-delay: 0.6s;
+}
+.logo:nth-child(8) {
+    color: rgb(249, 249, 249);
+    animation-delay: 0.7s;
+}
+
+
+
+@keyframes bounce {
+    0% {
+        transform: translateY(0);
+    }
+    100% {
+        transform: translateY(-30px);
+    }
 }
 
 .gameOver-score-box {
@@ -70,16 +115,20 @@
     width: 160px;
     padding: 12px;
     margin: 8px;
-    font-size: 18px;
+    font-size: 23px;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
     border: none;
+    border-radius: 8px;
     cursor: pointer;
-    background-color:rgba(26, 26, 149, 0.719);
-    color: rgb(255, 255, 255);
-    border: 2px solid #555;
+    background-color:rgba(255, 255, 255, 0.3);
+    color: rgb(0, 255, 255);
+    border: 2px solid #7d7d7d00;
+    overflow: hidden;
 }
 
 .retry-btn:hover,
 .back-title-btn:hover {
-    background-color: rgb(70, 191, 14);
-    color: #111;
+    transform: scale(1.1);
+    background-color: rgb(0, 255, 255);
+    color: #ffffff;
 }
