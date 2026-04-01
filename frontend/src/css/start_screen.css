@@ -2,7 +2,7 @@ body {
     margin: 0;
     padding: 0;
     color: rgb(255, 255, 255);
-    background-color: rgb(5, 9, 56);
+    background-color: rgb(5, 5, 30);
     font-size: 16px;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
@@ -23,38 +23,38 @@ body {
     letter-spacing: 2px;
 }
 
-.logo {
+.title-logo logo {
     display: inline-block;
     animation: bounce 0.7s infinite alternate ease-out;
 }
 
 .logo:nth-child(1) {
     color: rgb(255, 0, 0);
-    animation-delay: 0s;
+    animation-delay: 0.001s;
 }
 .logo:nth-child(2) {
     color: rgb(255, 162, 0);
-    animation-delay: 0.1s;
+    animation-delay: 0.002s;
 }
 .logo:nth-child(3) {
     color: rgb(255, 242, 0);
-    animation-delay: 0.2s;
+    animation-delay: 0.003s;
 }
 .logo:nth-child(4) {
     color: rgb(38, 255, 0);
-    animation-delay: 0.3s;
+    animation-delay: 0.004s;
 }
 .logo:nth-child(5) {
     color: rgb(4, 0, 255);
-    animation-delay: 0.4s;
+    animation-delay: 0.005s;
 }
 .logo:nth-child(6) {
     color: rgb(217, 0, 255);
-    animation-delay: 0.5s;
+    animation-delay: 0.006s;
 }
 .logo:nth-child(7) {
     color: rgb(249, 249, 249);
-    animation-delay: 0.6s;
+    animation-delay: 0.007s;
 }
 
 /* ロゴのアニメーション */
@@ -63,11 +63,9 @@ body {
         transform: translateY(0);
     }
     100% {
-        transform: translateY(-30px);
+        transform: translateY(-20px);
     }
 }
-
-/* 発光効果 */
 
 
 
