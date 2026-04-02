@@ -1,7 +1,7 @@
 import { forEachBlock } from "./utils.js";
 import {ROWS, COLS, board, clearLines} from './board.js';
 import { PIECES } from "./pieces.js";
-import { addScore, combo, increaseCombo, resetCombo } from "./score.js";
+import { addScore, combo, increaseCombo, resatScore, resetCombo } from "./score.js";
 import { updateScoreUI } from "../ui/game-score.js";
 import { showGameOverScreen } from "../ui/gameover.js";
 
@@ -138,6 +138,9 @@ export function startGravity() {
 }
 
 export function initGame()  {
+    resatScore();
+    updateScoreUI();
+    
     clearLines();
     spawnPiece();
     render();

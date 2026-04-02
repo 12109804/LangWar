@@ -1,5 +1,5 @@
 import { initBoard } from "../game/board.js";
-import { score } from "../game/score.js";
+import { resatScore } from "../game/score.js";
 import { gameState, initGame } from "../game/state.js";
 
 
@@ -20,9 +20,9 @@ export function hideGameOverScreen() {
 // リトライ関数
 function restartGame() {
     hideGameOverScreen();
-
-    gameState.gameOver = false;  
-
+    
+    gameState.gameOver = false;  /* インターバルの停止 */ 
+    
     initBoard();
     initGame();
 }
