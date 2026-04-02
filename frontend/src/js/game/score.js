@@ -1,3 +1,4 @@
+// スコアの追加
 export let score = 0;
 export let combo = 0;
 
@@ -12,11 +13,17 @@ export function addScore(Lines) {
     score += base + bonus;
 }
 
-
+// コンボ関数
 export function increaseCombo() {
     combo++;
 }
-
+// コンボリセット関数
 export function resetCombo() {
+    combo = 0;
+}
+
+// スコアリセット関数
+export function resatScore() {
+    score = 0;
     combo = 0;
 }

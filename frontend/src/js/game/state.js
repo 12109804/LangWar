@@ -1,12 +1,17 @@
 import { forEachBlock } from "./utils.js";
 import {ROWS, COLS, board, clearLines} from './board.js';
 import { PIECES } from "./pieces.js";
-import { addScore, combo, increaseCombo, resetCombo } from "./score.js";
+import { addScore, combo, increaseCombo, resatScore, resetCombo } from "./score.js";
 import { updateScoreUI } from "../ui/game-score.js";
 import { showGameOverScreen } from "../ui/gameover.js";
 
 /* ゲームオーバー判定 */
 export let gameOver = false;  
+
+// オブジェクト化（モジュールのため）
+export let gameState = {
+    gameOver:false
+};
 
 // 現在のピース（参照を共有するため空）
 export let currentPiece = {};
@@ -27,7 +32,7 @@ export function spawnPiece() {
         
 // 新しいブロックを置けない場合の処理（すでに固定ブロックがある場合）
     if (board[currentPiece.y][currentPiece.x] !== 0) {
-        gameOver = true;
+        gameState.gameOver = true;
         // ゲームオーバー画面の表示
         showGameOverScreen();
         return;
@@ -109,11 +114,14 @@ export function render() {
 export let dropSpeed = { value: 1000 };
 export let dropInterval = null;
 
+
 export function startGravity() {
+    // nullではない場合dropIntervalをとめる
+    if (dropInterval) clearInterval(dropInterval);
     // 速度変更のためにIDを保存
     dropInterval = setInterval(() => {
      // ゲームオーバーになったら
-    if (gameOver) return;
+    if (gameState.gameOver) return;
     // 下に空きがあるかつ、一番下でない場合yを+1して下に移動させる
     if (canMoveDown()) {
         currentPiece.y++;
@@ -130,6 +138,9 @@ export function startGravity() {
 }
 
 export function initGame()  {
+    resatScore();
+    updateScoreUI();
+    
     clearLines();
     spawnPiece();
     render();
