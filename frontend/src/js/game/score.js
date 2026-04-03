@@ -23,7 +23,7 @@ export function resetCombo() {
 }
 
 // スコアリセット関数
-export function resatScore() {
+export function resetScore() {
     score = 0;
     combo = 0;
 }

@@ -1,6 +1,6 @@
 import { initBoard } from "../game/board.js";
-import { resatScore } from "../game/score.js";
-import { gameState, initGame } from "../game/state.js";
+import { score } from "../game/score.js";
+import { dropInterval, gameState, initGame } from "../game/state.js";
 
 
 // ゲームオーバー関数
@@ -33,8 +33,22 @@ document.getElementById("retry-btn").addEventListener("click", () => {
 })
 
 
+// タイトル画面に戻る関数
+function backToTitle() {
+    hideGameOverScreen();
 
-// タイトル関数
+    // ゲームの停止
+    gameState.gameOver = false;
+    if (dropInterval) clearInterval(dropInterval);
+    // スコアと盤面のリセット
+    restartGame();
+    initBoard();
+    // 画面の切り替え
+    document.getElementById("game-screen").style.display = "none";
+    document.getElementById("start-screen").style.display = "flex";
+}
 
+//ボタンイベント
+document.getElementById("back-title-btn").addEventListener("click",backToTitle)
 
 
