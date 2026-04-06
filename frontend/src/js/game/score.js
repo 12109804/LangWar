@@ -3,14 +3,14 @@ export let score = 0;
 export let combo = 0;
 
 export function addScore(Lines) {
-    const table = [0, 1000, 3000, 5000, 10000];
+    const table = [0, 100, 200, 300, 1000];
 
     // 基本スコア
     let base = table[Lines];
 
     // コンボ倍率（１回目は１倍、２回目は２倍、３倍...）
     let bonus = base * combo;
-    score += base + bonus;
+    score += bonus;
 }
 
 // コンボ関数
